@@ -28,4 +28,11 @@ public class LoginActivity extends BaseActivity {
         finish();
     }
 
+    public void onRegisterClick(View sender) {
+        Log.d("MICH_TAG", "login");
+        startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
+        finish();
+    }
+
+
 }
