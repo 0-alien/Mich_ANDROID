@@ -4,7 +4,7 @@
     android:id="@+id/activity_register"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.mich.android.mich.Activities.RegisterActivity">
+    tools:context="com.mich.android.mich.activities.RegisterActivity">
 
     <FrameLayout
         android:layout_width="match_parent"

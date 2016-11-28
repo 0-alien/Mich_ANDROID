@@ -1,4 +1,4 @@
-package com.mich.android.mich.Activities;
+package com.mich.android.mich.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;

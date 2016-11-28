@@ -1,4 +1,4 @@
-package com.mich.android.mich.Activities;
+package com.mich.android.mich.activities;
 
 import android.content.Intent;
 import android.os.Bundle;

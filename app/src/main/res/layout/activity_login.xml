@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.mich.android.mich.Activities.LoginActivity">
+    tools:context="com.mich.android.mich.activities.LoginActivity">
 
     <FrameLayout
         android:layout_width="match_parent"
