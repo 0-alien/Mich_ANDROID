@@ -11,14 +11,24 @@ import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.mich.android.mich.BaseActivity;
 import com.mich.android.mich.R;
 
 
 public class LoginActivity extends BaseActivity {
 
+    private static final int RC_SIGN_IN = 9001;
+
     private CallbackManager mFacebookCallbackManager;
     private LoginButton mFacebookSignInButton;
+    private SignInButton mGoogleSignInButton;
+    private GoogleApiClient mGoogleApiClient;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +39,33 @@ public class LoginActivity extends BaseActivity {
         mFacebookSignInButton = (LoginButton)findViewById(R.id.facebook_sign_in_button);
         mFacebookSignInButton.registerCallback(mFacebookCallbackManager,fbLoginCallBack);
 
+
+        mGoogleSignInButton = (SignInButton)findViewById(R.id.google_sign_in_button);
+        mGoogleSignInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                signInWithGoogle();
+            }
+        });
+
+
     }
 
+    private void signInWithGoogle() {
+        if(mGoogleApiClient != null) {
+            mGoogleApiClient.disconnect();
+        }
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
+
+        final Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
 
 
     private FacebookCallback<LoginResult> fbLoginCallBack = new FacebookCallback<LoginResult>() {
@@ -55,7 +90,25 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         mFacebookCallbackManager.onActivityResult(requestCode, resultCode, data);
+
+
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+
+            if(result.isSuccess()) {
+                final GoogleApiClient client = mGoogleApiClient;
+                Log.d("TAG",result.getSignInAccount().getId());
+                //handleSignInResult(...)
+            } else {
+                //handleSignInResult(...);
+            }
+        } else {
+            // Handle other values for requestCode
+        }
+
+
     }
 
     @Override
