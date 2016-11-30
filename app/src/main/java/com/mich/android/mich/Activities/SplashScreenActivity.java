@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.crashlytics.android.Crashlytics;
 import com.mich.android.mich.BaseActivity;
 import com.mich.android.mich.R;
+import io.fabric.sdk.android.Fabric;
 
 public class SplashScreenActivity extends BaseActivity {
 
@@ -16,6 +18,7 @@ public class SplashScreenActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Fabric.with(this, new Crashlytics());
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
