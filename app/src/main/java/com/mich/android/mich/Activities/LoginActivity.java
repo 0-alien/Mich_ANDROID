@@ -16,8 +16,12 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.koushikdutta.async.future.FutureCallback;
 import com.mich.android.mich.BaseActivity;
 import com.mich.android.mich.R;
+import com.mich.android.mich.transport.MichTransport;
+import com.mich.android.mich.transport.requests.FacebookLoginRequest;
+import com.mich.android.mich.transport.responses.LoginResponse;
 
 
 public class LoginActivity extends BaseActivity {
@@ -71,8 +75,8 @@ public class LoginActivity extends BaseActivity {
     private FacebookCallback<LoginResult> fbLoginCallBack = new FacebookCallback<LoginResult>() {
         @Override
         public void onSuccess(LoginResult loginResult) {
-            Log.d("TAG", "success");
-            Log.d("TAG", loginResult.getAccessToken().getToken());
+            MichTransport.getInstance().
+                    login(LoginActivity.this,loginCallback,new FacebookLoginRequest(loginResult.getAccessToken().getToken()));
         }
 
         @Override
@@ -84,6 +88,15 @@ public class LoginActivity extends BaseActivity {
         public void onError(FacebookException error) {
             Log.d("TAG", "error");
             Log.d(LoginActivity.class.getCanonicalName(), error.getMessage());
+        }
+    };
+
+    private FutureCallback<LoginResponse> loginCallback = new FutureCallback<LoginResponse>() {
+        @Override
+        public void onCompleted(Exception e, LoginResponse result) {
+            if( e == null ){
+                loginApp();
+            }
         }
     };
 
@@ -117,6 +130,10 @@ public class LoginActivity extends BaseActivity {
     }
 
     public void loginAction(View sender) {
+        loginApp();
+    }
+
+    public void loginApp(){
         Log.d("MICH_TAG", "login");
         startActivity(new Intent(LoginActivity.this,NavigationActivity.class));
         finish();
