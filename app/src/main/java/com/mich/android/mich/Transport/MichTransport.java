@@ -1,10 +1,10 @@
-package com.mich.android.mich.transport;
+package com.mich.android.mich.Transport;
 
 import android.content.Context;
 
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-import com.mich.android.mich.transport.responses.RegisterResponse;
+import com.mich.android.mich.Transport.Responses.RegisterResponse;
 
 public class MichTransport {
 
