@@ -2,27 +2,66 @@ package com.mich.android.mich.Activities;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.mich.android.mich.BaseActivity;
 import com.mich.android.mich.R;
+import com.mich.android.mich.bean.Post;
+import com.mich.android.mich.fragments.PostsFragment;
 
-public class NavigationActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import java.util.ArrayList;
+import java.util.List;
+
+public class NavigationActivity extends BaseActivity
+        implements NavigationView.OnNavigationItemSelectedListener, PostsFragment.OnListFragmentInteractionListener {
+
+
+    DemoCollectionPagerAdapter mDemoCollectionPagerAdapter;
+    ViewPager mViewPager;
+    Toolbar toolbar;
+    List<ImageView> tabButtons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_navigation);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         setSupportActionBar(toolbar);
 
+
+        initDrawerLayout();
+        initViewPager();
+        initTabButtons();
+    }
+
+    private void initTabButtons() {
+        tabButtons = new ArrayList<ImageView>();
+        tabButtons.add((ImageView)findViewById(R.id.btn_tab1));
+        tabButtons.add((ImageView)findViewById(R.id.btn_tab2));
+        tabButtons.add((ImageView)findViewById(R.id.btn_tab3));
+        tabButtons.add((ImageView)findViewById(R.id.btn_tab4));
+        tabButtons.add((ImageView)findViewById(R.id.btn_tab5));
+        for (int i = 0; i < tabButtons.size(); i++){
+            tabButtons.get(i).setTag(i);
+            tabButtons.get(i).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mViewPager.setCurrentItem(Integer.parseInt(v.getTag().toString()));
+                }
+            });
+        }
+    }
+
+    private void initDrawerLayout() {
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         ImageView ivCustomDrawable = (ImageView) toolbar.findViewById(R.id.ivCustomDrawable);
@@ -35,6 +74,14 @@ public class NavigationActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void initViewPager() {
+        mDemoCollectionPagerAdapter =
+                new DemoCollectionPagerAdapter(
+                        getSupportFragmentManager());
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager.setAdapter(mDemoCollectionPagerAdapter);
     }
 
     @Override
@@ -73,4 +120,36 @@ public class NavigationActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.END);
         return true;
     }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_navigation;
+    }
+
+    @Override
+    public void onListFragmentInteraction(Post post) {
+
+    }
+
+    public class DemoCollectionPagerAdapter extends FragmentStatePagerAdapter {
+        public DemoCollectionPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+            return PostsFragment.newInstance(1);
+        }
+
+        @Override
+        public int getCount() {
+            return 5;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return "OBJECT " + (position + 1);
+        }
+    }
+
 }
