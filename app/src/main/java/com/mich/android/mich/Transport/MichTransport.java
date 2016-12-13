@@ -1,10 +1,12 @@
-package com.mich.android.mich.Transport;
+package com.mich.android.mich.transport;
 
 import android.content.Context;
 
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-import com.mich.android.mich.Transport.Responses.RegisterResponse;
+import com.mich.android.mich.transport.requests.LoginRequest;
+import com.mich.android.mich.transport.responses.LoginResponse;
+import com.mich.android.mich.transport.responses.RegisterResponse;
 
 public class MichTransport {
 
@@ -25,8 +27,18 @@ public class MichTransport {
     public void registerUser(Context context, FutureCallback<RegisterResponse> callBack, String username){
         Ion.with(context).
                 load(BASE_URL + "/რეგისტრაციის მისამართიიიიიიიიი").
-                as(RegisterResponse.class).
+                as(com.mich.android.mich.transport.responses.RegisterResponse.class).
                 setCallback(callBack);
     }
+
+    public void login(Context context, FutureCallback<LoginResponse> callBack, LoginRequest request){
+        Ion.with(context).
+                load(BASE_URL + "/login").
+                setJsonObjectBody(request.toJson()).
+                as(LoginResponse.class).
+                setCallback(callBack);
+    }
+
+
 
 }

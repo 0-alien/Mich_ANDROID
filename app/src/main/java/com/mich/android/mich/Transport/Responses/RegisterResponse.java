@@ -1,4 +1,4 @@
-package com.mich.android.mich.Transport.Responses;
+package com.mich.android.mich.transport.responses;
 
 public class RegisterResponse {
 }

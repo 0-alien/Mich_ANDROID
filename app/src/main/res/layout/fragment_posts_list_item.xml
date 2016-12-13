@@ -9,11 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:orientation="horizontal">
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="10dp"
-            android:src="@drawable/ic_louncher"/>
+            android:src="@drawable/ic_test_user_image"/>
 
         <TextView
             android:layout_width="0dp"

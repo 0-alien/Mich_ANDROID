@@ -1,4 +1,4 @@
-package com.mich.android.mich.Activities;
+package com.mich.android.mich.activities;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -16,13 +16,17 @@ import android.widget.ImageView;
 import com.mich.android.mich.BaseActivity;
 import com.mich.android.mich.R;
 import com.mich.android.mich.bean.Post;
+import com.mich.android.mich.fragments.MyProfileFragment;
+import com.mich.android.mich.fragments.PostSearchFragment;
 import com.mich.android.mich.fragments.PostsFragment;
+import com.mich.android.mich.fragments.VsFragment;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class NavigationActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener, PostsFragment.OnListFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        PostsFragment.OnListFragmentInteractionListener{
 
 
     DemoCollectionPagerAdapter mDemoCollectionPagerAdapter;
@@ -131,6 +135,7 @@ public class NavigationActivity extends BaseActivity
 
     }
 
+
     public class DemoCollectionPagerAdapter extends FragmentStatePagerAdapter {
         public DemoCollectionPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -138,6 +143,17 @@ public class NavigationActivity extends BaseActivity
 
         @Override
         public Fragment getItem(int i) {
+            switch (i){
+                case 0:
+                    return PostsFragment.newInstance(1);
+                case 1:
+                    return VsFragment.newInstance();
+                case 3:
+                    return PostSearchFragment.newInstance();
+                case 4:
+                    return MyProfileFragment.newInstance();
+
+            }
             return PostsFragment.newInstance(1);
         }
 
