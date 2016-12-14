@@ -91,6 +91,26 @@ public class NavigationActivity extends BaseActivity
                         getSupportFragmentManager());
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mDemoCollectionPagerAdapter);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(position == 3){
+                    toolbar.findViewById(R.id.search_view).setVisibility(View.VISIBLE);
+                }else {
+                    toolbar.findViewById(R.id.search_view).setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     @Override
@@ -157,6 +177,8 @@ public class NavigationActivity extends BaseActivity
         public int getCount() {
             return 5;
         }
+
+
 
         @Override
         public CharSequence getPageTitle(int position) {

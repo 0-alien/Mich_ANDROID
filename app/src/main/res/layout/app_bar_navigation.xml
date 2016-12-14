@@ -23,15 +23,31 @@
                android:orientation="horizontal"
                android:gravity="center_vertical"
                android:layout_height="match_parent">
-               <View
+               <LinearLayout
+                   android:id="@+id/search_view"
                    android:layout_width="0dp"
-                   android:layout_height="match_parent"
-                   android:layout_weight="1"/>
+                   android:layout_weight="1"
+                   android:visibility="invisible"
+                   android:layout_height="wrap_content">
+                   <ImageView
+                       android:layout_gravity="center_vertical"
+                       android:layout_width="wrap_content"
+                       android:layout_height="wrap_content"
+                       android:src="@drawable/ic_search"/>
+                   <EditText
+                       android:layout_gravity="center"
+                       android:layout_width="0dp"
+                       android:hint="search"
+                       android:layout_height="wrap_content"
+                       android:layout_weight="1"/>
+
+               </LinearLayout>
                <ImageView
 
                    android:layout_width="wrap_content"
                    android:src="@drawable/ic_burger"
                    android:id="@+id/ivCustomDrawable"
+                   android:layout_gravity="center_vertical"
                    android:adjustViewBounds="true"
                    android:layout_height="wrap_content" />
                <View

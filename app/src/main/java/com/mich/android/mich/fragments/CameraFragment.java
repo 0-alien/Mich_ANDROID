@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.mich.android.mich.R;
 import com.mich.android.mich.customview.CameraPreview;
@@ -19,6 +20,9 @@ import com.mich.android.mich.customview.CameraPreview;
  * create an instance of this fragment.
  */
 public class CameraFragment extends Fragment {
+
+    private TextView libraryBtn;
+    private TextView cameraBtn;
 
     public static Camera mCamera;
     private CameraPreview mPreview;
@@ -43,19 +47,37 @@ public class CameraFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
 
-        View view = inflater.inflate(R.layout.fragment_camera, container, false);
+        final View view = inflater.inflate(R.layout.fragment_camera, container, false);
 
-        // Create an instance of Camera
-        if(mCamera == null) {
-            mCamera = Camera.open(0);
-        }
+        view.findViewById(R.id.library_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                view.findViewById(R.id.gallery_view).setVisibility(View.VISIBLE);
+                view.findViewById(R.id.camera_view).setVisibility(View.GONE);
+            }
+        });
 
-        // Create our Preview view and set it as the content of our activity.
-        mPreview = new CameraPreview(getActivity(), mCamera);
-        FrameLayout preview = (FrameLayout) view.findViewById(R.id.camera_preview);
-        preview.addView(mPreview);
+        view.findViewById(R.id.camera_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                view.findViewById(R.id.gallery_view).setVisibility(View.GONE);
+                view.findViewById(R.id.camera_view).setVisibility(View.VISIBLE);
+                // Create an instance of Camera
+                if(mCamera == null) {
+                    mCamera = Camera.open(0);
+                }
+
+                // Create our Preview view and set it as the content of our activity.
+                if(mPreview == null) {
+                    mPreview = new CameraPreview(getActivity(), mCamera);
+                    FrameLayout preview = (FrameLayout) view.findViewById(R.id.camera_preview);
+                    preview.addView(mPreview);
+                }
+            }
+        });
+
+
         return view;
     }
 
