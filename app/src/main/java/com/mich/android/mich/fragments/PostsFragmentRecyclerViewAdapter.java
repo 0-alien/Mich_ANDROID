@@ -1,10 +1,10 @@
 package com.mich.android.mich.fragments;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.mich.android.mich.R;
 import com.mich.android.mich.bean.Post;
@@ -41,36 +41,33 @@ public class PostsFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Posts
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
+                    mListener.onCommentClick(holder.mItem);
                 }
             }
         });
+
+        if (position == 0) {
+            holder.mView.findViewById(R.id.top_space).setVisibility(View.VISIBLE);
+        } else {
+            holder.mView.findViewById(R.id.top_space).setVisibility(View.GONE);
+        }
     }
 
     @Override
     public int getItemCount() {
-        Log.d("TAG",mValues.size() + "");
         return mValues.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-//        public final TextView mIdView;
+        public final ImageView commentsBtn;
 //        public final TextView mContentView;
         public Post mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-//            mIdView = (TextView) view.findViewById(R.id.id);
-//            mContentView = (TextView) view.findViewById(R.id.content);
+            commentsBtn = (ImageView)view.findViewById(R.id.comments_btn);
         }
-
-//        @Override
-//        public String toString() {
-//            return super.toString() + " '" + mContentView.getText() + "'";
-//        }
     }
 }

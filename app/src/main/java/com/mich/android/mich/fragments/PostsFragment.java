@@ -113,6 +113,6 @@ public class PostsFragment extends Fragment{
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(Post post);
+        void onCommentClick(Post post);
     }
 }

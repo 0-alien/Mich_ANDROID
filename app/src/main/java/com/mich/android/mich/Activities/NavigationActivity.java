@@ -1,5 +1,7 @@
 package com.mich.android.mich.activities;
 
+import android.content.Intent;
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -16,6 +18,7 @@ import android.widget.ImageView;
 import com.mich.android.mich.BaseActivity;
 import com.mich.android.mich.R;
 import com.mich.android.mich.bean.Post;
+import com.mich.android.mich.fragments.CameraFragment;
 import com.mich.android.mich.fragments.MyProfileFragment;
 import com.mich.android.mich.fragments.PostSearchFragment;
 import com.mich.android.mich.fragments.PostsFragment;
@@ -38,7 +41,9 @@ public class NavigationActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-
+        if (CameraFragment.mCamera == null){
+            CameraFragment.mCamera = Camera.open(0);
+        }
         setSupportActionBar(toolbar);
 
 
@@ -114,10 +119,6 @@ public class NavigationActivity extends BaseActivity
 
         } else if (id == R.id.nav_manage) {
 
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -131,10 +132,9 @@ public class NavigationActivity extends BaseActivity
     }
 
     @Override
-    public void onListFragmentInteraction(Post post) {
-
+    public void onCommentClick(Post post) {
+        startActivity(new Intent(this,CommentsActivity.class));
     }
-
 
     public class DemoCollectionPagerAdapter extends FragmentStatePagerAdapter {
         public DemoCollectionPagerAdapter(FragmentManager fm) {
@@ -148,6 +148,8 @@ public class NavigationActivity extends BaseActivity
                     return PostsFragment.newInstance(1);
                 case 1:
                     return VsFragment.newInstance();
+                case 2:
+                    return CameraFragment.newInstance();
                 case 3:
                     return PostSearchFragment.newInstance();
                 case 4:
