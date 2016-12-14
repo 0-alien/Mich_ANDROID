@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
 
     <application
@@ -31,8 +32,8 @@
         <activity
             android:name=".activities.NavigationActivity"
             android:label="@string/title_activity_navigation"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".activities.RegisterActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -41,7 +42,8 @@
             android:name="io.fabric.ApiKey"
             android:value="41f8e603cbf676dcf69b61049bb62adf96e3e746" />
 
-        <activity android:name=".activities.CommentsActivity"></activity>
+        <activity android:name=".activities.CommentsActivity" />
+        <activity android:name=".activities.VsDetailsActivity"></activity>
     </application>
 
 </manifest>

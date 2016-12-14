@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.mich.android.mich.R;
 import com.mich.android.mich.bean.Post;
@@ -37,12 +38,20 @@ public class PostsFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Posts
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
+        holder.commentsBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != mListener) {
                     mListener.onCommentClick(holder.mItem);
                 }
+            }
+        });
+        holder.likesTv.setText(holder.mItem.likes+"");
+        holder.likesBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                holder.mItem.likes++;
+                holder.likesTv.setText(holder.mItem.likes+"");
             }
         });
 
@@ -61,13 +70,16 @@ public class PostsFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Posts
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final ImageView commentsBtn;
-//        public final TextView mContentView;
+        public final ImageView likesBtn;
+        public final TextView likesTv;
         public Post mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
+            likesBtn = (ImageView)view.findViewById(R.id.likes_btn);
             commentsBtn = (ImageView)view.findViewById(R.id.comments_btn);
+            likesTv = (TextView)view.findViewById(R.id.likes_tv);
         }
     }
 }

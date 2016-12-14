@@ -1,16 +1,23 @@
 package com.mich.android.mich.fragments;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.mich.android.mich.R;
+import com.mich.android.mich.activities.VsDetailsActivity;
 import com.mich.android.mich.bean.Post;
 
 public class VsFragmentRecyclerViewAdapter extends RecyclerView.Adapter<VsFragmentRecyclerViewAdapter.ViewHolder> {
 
+    private Context context;
 
+    public VsFragmentRecyclerViewAdapter(Context context){
+        this.context = context;
+    }
 
 
     @Override
@@ -22,7 +29,12 @@ public class VsFragmentRecyclerViewAdapter extends RecyclerView.Adapter<VsFragme
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context.startActivity(new Intent(context, VsDetailsActivity.class));
+            }
+        });
     }
 
     @Override
@@ -32,21 +44,12 @@ public class VsFragmentRecyclerViewAdapter extends RecyclerView.Adapter<VsFragme
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        //        public final TextView mIdView;
-//        public final TextView mContentView;
         public Post mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-//            mIdView = (TextView) view.findViewById(R.id.id);
-//            mContentView = (TextView) view.findViewById(R.id.content);
         }
-
-//        @Override
-//        public String toString() {
-//            return super.toString() + " '" + mContentView.getText() + "'";
-//        }
     }
 
 }

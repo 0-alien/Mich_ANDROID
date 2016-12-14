@@ -55,7 +55,7 @@ public class VsFragment extends Fragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-        recyclerView.setAdapter(new VsFragmentRecyclerViewAdapter());
+        recyclerView.setAdapter(new VsFragmentRecyclerViewAdapter(getActivity()));
         return view;
     }
 }

@@ -30,7 +30,7 @@
                <ImageView
 
                    android:layout_width="wrap_content"
-                   android:src="@drawable/ic_burger_icon"
+                   android:src="@drawable/ic_burger"
                    android:id="@+id/ivCustomDrawable"
                    android:adjustViewBounds="true"
                    android:layout_height="wrap_content" />

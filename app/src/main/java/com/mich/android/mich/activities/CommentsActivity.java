@@ -3,6 +3,8 @@ package com.mich.android.mich.activities;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 
 import com.mich.android.mich.BaseActivity;
 import com.mich.android.mich.R;
@@ -16,6 +18,7 @@ public class CommentsActivity extends BaseActivity {
 
     private RecyclerView recyclerView;
     private CommentsRecyclerAdapter adapter;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +35,13 @@ public class CommentsActivity extends BaseActivity {
         adapter = new CommentsRecyclerAdapter(this,comments);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar.findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
     }
 
