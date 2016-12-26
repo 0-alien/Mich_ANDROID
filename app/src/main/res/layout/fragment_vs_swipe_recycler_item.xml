@@ -9,6 +9,6 @@
     sml:sml_scroller_duration="250">
 
     <include android:id="@id/smContentView" layout="@layout/fragment_vs_list_item"/>
-    <include android:id="@id/smMenuViewRight" layout="@layout/fragment_vs_list_item"/>
+    <include android:id="@id/smMenuViewRight" layout="@layout/fragment_vs_list_item_right"/>
 
 </com.tubb.smrv.SwipeHorizontalMenuLayout>
