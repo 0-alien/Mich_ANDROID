@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -32,18 +33,31 @@ public class LoginActivity extends BaseActivity {
     private LoginButton mFacebookSignInButton;
     private SignInButton mGoogleSignInButton;
     private GoogleApiClient mGoogleApiClient;
+    private TextView forgotPasswordTv;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
         FacebookSdk.sdkInitialize(getApplicationContext());
         mFacebookCallbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_login);
+
+
+
+        forgotPasswordTv = (TextView)findViewById(R.id.tv_forgot_password);
+        forgotPasswordTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
+            }
+        });
+
         mFacebookSignInButton = (LoginButton)findViewById(R.id.facebook_sign_in_button);
         mFacebookSignInButton.registerCallback(mFacebookCallbackManager,fbLoginCallBack);
-
-
         mGoogleSignInButton = (SignInButton)findViewById(R.id.google_sign_in_button);
         mGoogleSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override

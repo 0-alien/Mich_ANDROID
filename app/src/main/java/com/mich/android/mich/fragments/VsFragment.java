@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mich.android.mich.R;
+import com.tubb.smrv.SwipeMenuRecyclerView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -50,7 +51,7 @@ public class VsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_vs, container, false);
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
+        SwipeMenuRecyclerView recyclerView = (SwipeMenuRecyclerView) view.findViewById(R.id.list);
         Context context = view.getContext();
 
         recyclerView.setLayoutManager(new LinearLayoutManager(context));

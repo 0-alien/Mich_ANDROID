@@ -4,9 +4,9 @@
     android:layout_height="match_parent"
     tools:context="com.mich.android.mich.fragments.VsFragment">
 
-   <android.support.v7.widget.RecyclerView
+   <com.tubb.smrv.SwipeMenuRecyclerView
        android:id="@+id/list"
        android:layout_width="match_parent"
        android:layout_height="match_parent"
-       tools:listitem="@layout/fragment_vs_list_item"/>
+       tools:listitem="@layout/fragment_vs_swipe_recycler_item"/>
 </LinearLayout>

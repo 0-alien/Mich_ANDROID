@@ -22,7 +22,7 @@ public class VsFragmentRecyclerViewAdapter extends RecyclerView.Adapter<VsFragme
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_vs_list_item, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_vs_swipe_recycler_item, parent, false);
 
         return new ViewHolder(itemView);
     }
@@ -44,7 +44,6 @@ public class VsFragmentRecyclerViewAdapter extends RecyclerView.Adapter<VsFragme
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
-        public Post mItem;
 
         public ViewHolder(View view) {
             super(view);

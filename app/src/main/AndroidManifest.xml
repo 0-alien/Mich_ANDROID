@@ -43,7 +43,9 @@
             android:value="41f8e603cbf676dcf69b61049bb62adf96e3e746" />
 
         <activity android:name=".activities.CommentsActivity" />
-        <activity android:name=".activities.VsDetailsActivity"></activity>
+        <activity android:name=".activities.VsDetailsActivity" />
+        <activity android:name=".activities.ForgotPasswordActivity" />
+        <activity android:name=".activities.NotificationsActivity"></activity>
     </application>
 
 </manifest>

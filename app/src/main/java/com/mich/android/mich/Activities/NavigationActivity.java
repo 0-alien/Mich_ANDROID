@@ -1,24 +1,22 @@
 package com.mich.android.mich.activities;
 
+
 import android.content.Intent;
-import android.hardware.Camera;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.mich.android.mich.BaseActivity;
 import com.mich.android.mich.R;
 import com.mich.android.mich.bean.Post;
-import com.mich.android.mich.fragments.CameraFragment;
 import com.mich.android.mich.fragments.MyProfileFragment;
 import com.mich.android.mich.fragments.PostSearchFragment;
 import com.mich.android.mich.fragments.PostsFragment;
@@ -31,29 +29,24 @@ public class NavigationActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         PostsFragment.OnListFragmentInteractionListener{
 
-
-    DemoCollectionPagerAdapter mDemoCollectionPagerAdapter;
-    ViewPager mViewPager;
     Toolbar toolbar;
     List<ImageView> tabButtons;
+    FrameLayout fragmentPlaceholder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (CameraFragment.mCamera == null){
-            CameraFragment.mCamera = Camera.open(0);
-        }
         setSupportActionBar(toolbar);
 
 
         initDrawerLayout();
-        initViewPager();
         initTabButtons();
     }
 
     private void initTabButtons() {
-        tabButtons = new ArrayList<ImageView>();
+        fragmentPlaceholder = (FrameLayout)findViewById(R.id.fragment_placeholder);
+        tabButtons = new ArrayList<>();
         tabButtons.add((ImageView)findViewById(R.id.btn_tab1));
         tabButtons.add((ImageView)findViewById(R.id.btn_tab2));
         tabButtons.add((ImageView)findViewById(R.id.btn_tab3));
@@ -64,10 +57,37 @@ public class NavigationActivity extends BaseActivity
             tabButtons.get(i).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mViewPager.setCurrentItem(Integer.parseInt(v.getTag().toString()));
+                    int selectedPos = Integer.parseInt(v.getTag().toString());
+                    if(selectedPos == 2){
+                        Toast.makeText(NavigationActivity.this,"Tab 3 click",Toast.LENGTH_SHORT);
+                    }else {
+                        Fragment fragment = getFragmentFromPos(selectedPos);
+
+                        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                        ft.replace(R.id.fragment_placeholder, fragment);
+                        ft.commit();
+
+                    }
                 }
             });
         }
+    }
+
+
+    private Fragment getFragmentFromPos(int pos){
+
+        switch (pos){
+            case 0:
+                return PostsFragment.newInstance(1);
+            case 1:
+                return VsFragment.newInstance();
+            case 3:
+                return PostSearchFragment.newInstance();
+            case 4:
+                return MyProfileFragment.newInstance();
+        }
+        return null;
+
     }
 
     private void initDrawerLayout() {
@@ -85,33 +105,6 @@ public class NavigationActivity extends BaseActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
-    private void initViewPager() {
-        mDemoCollectionPagerAdapter =
-                new DemoCollectionPagerAdapter(
-                        getSupportFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.pager);
-        mViewPager.setAdapter(mDemoCollectionPagerAdapter);
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if(position == 3){
-                    toolbar.findViewById(R.id.search_view).setVisibility(View.VISIBLE);
-                }else {
-                    toolbar.findViewById(R.id.search_view).setVisibility(View.INVISIBLE);
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-    }
 
     @Override
     public void onBackPressed() {
@@ -132,7 +125,7 @@ public class NavigationActivity extends BaseActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_notifications) {
-            // Handle the camera action
+            startActivity(new Intent(this,NotificationsActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -150,40 +143,6 @@ public class NavigationActivity extends BaseActivity
         startActivity(new Intent(this,CommentsActivity.class));
     }
 
-    public class DemoCollectionPagerAdapter extends FragmentStatePagerAdapter {
-        public DemoCollectionPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
 
-        @Override
-        public Fragment getItem(int i) {
-            switch (i){
-                case 0:
-                    return PostsFragment.newInstance(1);
-                case 1:
-                    return VsFragment.newInstance();
-                case 2:
-                    return CameraFragment.newInstance();
-                case 3:
-                    return PostSearchFragment.newInstance();
-                case 4:
-                    return MyProfileFragment.newInstance();
-
-            }
-            return PostsFragment.newInstance(1);
-        }
-
-        @Override
-        public int getCount() {
-            return 5;
-        }
-
-
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return "OBJECT " + (position + 1);
-        }
-    }
 
 }
