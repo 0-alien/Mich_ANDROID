@@ -23,6 +23,7 @@ public class NotificationsActivity extends BaseActivity {
         recyclerView = (RecyclerView)findViewById(R.id.list);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
         toolbar.findViewById(R.id.back_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

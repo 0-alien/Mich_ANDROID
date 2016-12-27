@@ -38,10 +38,9 @@ public class NavigationActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
         initDrawerLayout();
         initTabButtons();
+        selectPage(0);
     }
 
     private void initTabButtons() {
@@ -58,19 +57,40 @@ public class NavigationActivity extends BaseActivity
                 @Override
                 public void onClick(View v) {
                     int selectedPos = Integer.parseInt(v.getTag().toString());
-                    if(selectedPos == 2){
-                        Toast.makeText(NavigationActivity.this,"Tab 3 click",Toast.LENGTH_SHORT);
-                    }else {
-                        Fragment fragment = getFragmentFromPos(selectedPos);
-
-                        android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-                        ft.replace(R.id.fragment_placeholder, fragment);
-                        ft.commit();
-
-                    }
+                    selectPage(selectedPos);
                 }
             });
         }
+
+
+        findViewById(R.id.btn_take_photo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        findViewById(R.id.btn_open_gallery).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+    }
+
+
+    private void selectPage(int selectedPos){
+        if(selectedPos == 2){
+            findViewById(R.id.gallery_photo_chooser).setVisibility(View.VISIBLE);
+        }else {
+            findViewById(R.id.gallery_photo_chooser).setVisibility(View.GONE);
+            Fragment fragment = getFragmentFromPos(selectedPos);
+            android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.fragment_placeholder, fragment);
+            ft.commit();
+        }
+
     }
 
 
