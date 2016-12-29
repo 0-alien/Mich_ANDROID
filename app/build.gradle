@@ -16,7 +16,7 @@ repositories {
 apply plugin: 'io.fabric'
 android {
     compileSdkVersion 25
-    buildToolsVersion "24.0.1"
+    buildToolsVersion "24.0.3"
     defaultConfig {
         applicationId "com.mich.android.mich"
         minSdkVersion 19

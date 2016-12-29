@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.mich.android.mich.BaseActivity;
 import com.mich.android.mich.R;
@@ -66,23 +65,36 @@ public class NavigationActivity extends BaseActivity
         findViewById(R.id.btn_take_photo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startImageActivity(true);
             }
         });
 
         findViewById(R.id.btn_open_gallery).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startImageActivity(false);
             }
         });
 
     }
 
 
+    private void startImageActivity(boolean isCamera){
+        Intent intent = new Intent(NavigationActivity.this, ImageActivity.class);
+        Bundle b = new Bundle();
+        b.putBoolean("isCamera",isCamera);
+        intent.putExtras(b);
+        startActivity(intent);
+    }
+
+
     private void selectPage(int selectedPos){
         if(selectedPos == 2){
-            findViewById(R.id.gallery_photo_chooser).setVisibility(View.VISIBLE);
+            if(findViewById(R.id.gallery_photo_chooser).getVisibility() == View.VISIBLE){
+                findViewById(R.id.gallery_photo_chooser).setVisibility(View.GONE);
+            } else {
+                findViewById(R.id.gallery_photo_chooser).setVisibility(View.VISIBLE);
+            }
         }else {
             findViewById(R.id.gallery_photo_chooser).setVisibility(View.GONE);
             Fragment fragment = getFragmentFromPos(selectedPos);
