@@ -101,6 +101,26 @@ public class NavigationActivity extends BaseActivity
             android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.fragment_placeholder, fragment);
             ft.commit();
+
+            tabButtons.get(0).setImageResource(R.drawable.ic_home_tab_inactive);
+            tabButtons.get(1).setImageResource(R.drawable.ic_vs_tab_inactive);
+            tabButtons.get(3).setImageResource(R.drawable.ic_search_tab_inactive);
+            tabButtons.get(4).setImageResource(R.drawable.ic_profile_tab_inactive);
+            switch (selectedPos){
+                case 0:
+                    tabButtons.get(0).setImageResource(R.drawable.ic_home_tab);
+                    break;
+                case 1:
+                    tabButtons.get(1).setImageResource(R.drawable.ic_vs_tab);
+                    break;
+                case 3:
+                    tabButtons.get(3).setImageResource(R.drawable.ic_search_tab);
+                    break;
+                case 4:
+                    tabButtons.get(4).setImageResource(R.drawable.ic_profile_tab);
+                    break;
+            }
+
         }
 
     }
