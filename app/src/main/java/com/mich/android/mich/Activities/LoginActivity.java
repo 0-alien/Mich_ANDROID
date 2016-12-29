@@ -45,17 +45,6 @@ public class LoginActivity extends BaseActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         mFacebookCallbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_login);
-
-
-
-        forgotPasswordTv = (TextView)findViewById(R.id.tv_forgot_password);
-        forgotPasswordTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this, ForgotPasswordActivity.class));
-            }
-        });
-
         mFacebookSignInButton = (LoginButton)findViewById(R.id.facebook_sign_in_button);
         mFacebookSignInButton.registerCallback(mFacebookCallbackManager,fbLoginCallBack);
         mGoogleSignInButton = (SignInButton)findViewById(R.id.google_sign_in_button);
@@ -156,7 +145,7 @@ public class LoginActivity extends BaseActivity {
     public void onRegisterClick(View sender) {
         Log.d("MICH_TAG", "login");
         startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
-        finish();
+//        finish();
     }
 
 
