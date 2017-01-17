@@ -1,5 +1,6 @@
 package com.mich.android.mich.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,11 +18,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.koushikdutta.async.future.FutureCallback;
 import com.mich.android.mich.BaseActivity;
 import com.mich.android.mich.R;
+import com.mich.android.mich.transport.DoPostCallback;
 import com.mich.android.mich.transport.MichTransport;
-import com.mich.android.mich.transport.requests.FacebookLoginRequest;
 import com.mich.android.mich.transport.responses.LoginResponse;
 
 
@@ -87,8 +87,7 @@ public class LoginActivity extends BaseActivity {
     private FacebookCallback<LoginResult> fbLoginCallBack = new FacebookCallback<LoginResult>() {
         @Override
         public void onSuccess(LoginResult loginResult) {
-            MichTransport.getInstance().
-                    login(LoginActivity.this,loginCallback,new FacebookLoginRequest(loginResult.getAccessToken().getToken()));
+//            loginApp();
         }
 
         @Override
@@ -103,14 +102,7 @@ public class LoginActivity extends BaseActivity {
         }
     };
 
-    private FutureCallback<LoginResponse> loginCallback = new FutureCallback<LoginResponse>() {
-        @Override
-        public void onCompleted(Exception e, LoginResponse result) {
-            if( e == null ){
-                loginApp();
-            }
-        }
-    };
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -142,7 +134,16 @@ public class LoginActivity extends BaseActivity {
     }
 
     public void loginAction(View sender) {
-        loginApp();
+
+        final ProgressDialog dialog = ProgressDialog.show(this, "",
+                "Loading. Please wait...", true);
+
+        MichTransport.getInstance().userNameLogin(this, "alien@post.cm", "mypassssss", new DoPostCallback<LoginResponse>() {
+            @Override
+            public void onLoad(int code, String message, LoginResponse data) {
+                dialog.dismiss();
+            }
+        });
     }
 
     public void loginApp(){

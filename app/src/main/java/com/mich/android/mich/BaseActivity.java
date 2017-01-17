@@ -1,11 +1,13 @@
 package com.mich.android.mich;
 
+import android.app.ProgressDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 public abstract class BaseActivity extends AppCompatActivity {
 
     protected int NO_LAYOUT = -1;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
