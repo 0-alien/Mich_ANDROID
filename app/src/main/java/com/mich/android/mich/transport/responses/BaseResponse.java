@@ -1,11 +1,11 @@
-package com.mich.android.mich.transport.requests;
+package com.mich.android.mich.transport.responses;
 
 import com.google.gson.Gson;
 
 public class BaseResponse {
     public int code;
     public String message;
-    public String data;
+    public Object data;
 
 
     public String toJson(){

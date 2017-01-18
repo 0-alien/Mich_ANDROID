@@ -1,17 +1,16 @@
 package com.mich.android.mich.transport.requests;
 
-import com.mich.android.mich.transport.Request;
-
 public class UsernameLoginRequest extends Request{
-    String email;
+    String username;
     String password;
-    int type = 1;
+    int type = 0;
 
 
 
     public UsernameLoginRequest(String username, String password){
-        this.email = username;
+        this.username = username;
         this.password = password;
+        type = 0;
     }
 
 }

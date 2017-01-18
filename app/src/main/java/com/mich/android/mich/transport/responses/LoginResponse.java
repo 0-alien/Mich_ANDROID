@@ -2,6 +2,10 @@ package com.mich.android.mich.transport.responses;
 
 public class LoginResponse {
 
-    String token;
+    private String token;
+
+    public String getToken() {
+        return token;
+    }
 
 }

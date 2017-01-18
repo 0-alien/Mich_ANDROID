@@ -76,6 +76,9 @@
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/white"
                 android:layout_marginBottom="8dp"
+                android:singleLine="true"
+                android:lines="1"
+                android:minLines="1"
                 android:hint="Username"/>
 
             <EditText
@@ -89,6 +92,9 @@
                 android:layout_gravity="center_vertical"
                 android:textColor="@android:color/white"
                 android:textColorHint="@android:color/white"
+                android:singleLine="true"
+                android:lines="1"
+                android:minLines="1"
                 android:hint="Password"/>
 
             <TextView

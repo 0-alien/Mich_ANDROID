@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -18,6 +19,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.mich.android.mich.App;
 import com.mich.android.mich.BaseActivity;
 import com.mich.android.mich.R;
 import com.mich.android.mich.transport.DoPostCallback;
@@ -138,10 +140,17 @@ public class LoginActivity extends BaseActivity {
         final ProgressDialog dialog = ProgressDialog.show(this, "",
                 "Loading. Please wait...", true);
 
-        MichTransport.getInstance().userNameLogin(this, "alien@post.cm", "mypassssss", new DoPostCallback<LoginResponse>() {
+        MichTransport.getInstance().userNameLogin(this, "alien@post.com", "mypass", new DoPostCallback<LoginResponse>() {
             @Override
             public void onLoad(int code, String message, LoginResponse data) {
                 dialog.dismiss();
+                if(code == MichTransport.LOAD_SUCCESS) {
+                    App.getInstance().setLoginToken(data.getToken());
+                    loginApp();
+                } else {
+                    Toast.makeText(LoginActivity.this, code + " " + message, Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }

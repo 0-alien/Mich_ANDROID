@@ -1,4 +1,4 @@
-package com.mich.android.mich.transport;
+package com.mich.android.mich.transport.requests;
 
 import com.google.gson.Gson;
 

@@ -42,7 +42,7 @@ public class RegisterActivity extends BaseActivity {
 
             }
         };
-        MichTransport.getInstance().registerUser(this,callback,username);
+        //TODO register user
 
     }
 
