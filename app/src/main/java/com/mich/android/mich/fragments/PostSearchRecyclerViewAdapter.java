@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mich.android.mich.R;
-import com.mich.android.mich.bean.Post;
+import com.mich.android.mich.transport.responses.PostResponse;
 
 public class PostSearchRecyclerViewAdapter  extends RecyclerView.Adapter<PostSearchRecyclerViewAdapter.ViewHolder> {
 
@@ -34,7 +34,7 @@ public class PostSearchRecyclerViewAdapter  extends RecyclerView.Adapter<PostSea
         public final View mView;
         //        public final TextView mIdView;
 //        public final TextView mContentView;
-        public Post mItem;
+        public PostResponse mItem;
 
         public ViewHolder(View view) {
             super(view);

@@ -6,8 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mich.android.mich.R;
-import com.mich.android.mich.bean.Post;
-import com.mich.android.mich.fragments.PostSearchRecyclerViewAdapter;
 
 /**
  * Created by imac on 12/26/16.

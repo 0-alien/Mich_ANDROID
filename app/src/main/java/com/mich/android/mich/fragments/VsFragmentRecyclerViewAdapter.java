@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 
 import com.mich.android.mich.R;
 import com.mich.android.mich.activities.VsDetailsActivity;
-import com.mich.android.mich.bean.Post;
 
 public class VsFragmentRecyclerViewAdapter extends RecyclerView.Adapter<VsFragmentRecyclerViewAdapter.ViewHolder> {
 

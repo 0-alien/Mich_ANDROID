@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.mich.android.mich.App;
@@ -12,7 +13,11 @@ import com.mich.android.mich.transport.requests.Request;
 import com.mich.android.mich.transport.responses.BaseResponse;
 import com.mich.android.mich.transport.requests.UsernameLoginRequest;
 import com.mich.android.mich.transport.responses.LoginResponse;
+import com.mich.android.mich.transport.responses.PostResponse;
 import com.mich.android.mich.transport.responses.UserDataResponse;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 public class MichTransport {
 
@@ -34,7 +39,7 @@ public class MichTransport {
     }
 
 
-    public void doPost(Context context , String url, final Request request, final Class<?> type, final DoPostCallback callBack ){
+    public void doPost(Context context , String url, final Request request, final Type type, final DoPostCallback callBack ){
         Log.d("REQUEST",request.toJson());
         Ion.with(context).
                 load(url).
@@ -75,6 +80,11 @@ public class MichTransport {
 
     public void loadUserData(Context context,DoPostCallback<UserDataResponse> callback){
         doPost(context,BASE_URL+"user/get",new BaseAuthorizedRequest(App.getInstance().getLoginToken()),UserDataResponse.class,callback);
+    }
+
+
+    public void loadPosts(Context context, DoPostCallback<ArrayList<PostResponse>> callback){
+        doPost(context, BASE_URL+ "feed/get", new BaseAuthorizedRequest(App.getInstance().getLoginToken()), new TypeToken<ArrayList<PostResponse>>(){}.getType(), callback);
     }
 
 

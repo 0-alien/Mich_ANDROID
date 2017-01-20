@@ -1,5 +1,6 @@
 package com.mich.android.mich.fragments;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,23 +9,31 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mich.android.mich.R;
-import com.mich.android.mich.bean.Post;
+import com.mich.android.mich.Utils;
+import com.mich.android.mich.transport.responses.PostResponse;
 
 import java.util.List;
 
 /**
- * {@link RecyclerView.Adapter} that can display a {@link Post} and makes a call to the
+ * {@link RecyclerView.Adapter} that can display a {@link PostResponse} and makes a call to the
  * specified {@link PostsFragment.OnListFragmentInteractionListener}.
  * TODO: Replace the implementation with code for your data type.
  */
 public class PostsFragmentRecyclerViewAdapter extends RecyclerView.Adapter<PostsFragmentRecyclerViewAdapter.ViewHolder> {
 
-    private final List<Post> mValues;
+    private final List<PostResponse> mValues;
     private final PostsFragment.OnListFragmentInteractionListener mListener;
+    private final Context context;
 
-    public PostsFragmentRecyclerViewAdapter(List<Post> items, PostsFragment.OnListFragmentInteractionListener listener) {
+    public PostsFragmentRecyclerViewAdapter(Context context, List<PostResponse> items, PostsFragment.OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
+        this.context = context;
+    }
+
+    public void setPostResponses(List<PostResponse> postResponses){
+        this.mValues.clear();
+        this.mValues.addAll(postResponses);
     }
 
     @Override
@@ -47,6 +56,8 @@ public class PostsFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Posts
             }
         });
         holder.likesTv.setText(holder.mItem.likes+"");
+        holder.titleTv.setText(holder.mItem.getTitle());
+        Utils.loadUrlInImageView(context,holder.postCoverImg,holder.mItem.getImage());
         holder.likesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -67,19 +78,23 @@ public class PostsFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Posts
         return mValues.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final ImageView commentsBtn;
-        public final ImageView likesBtn;
-        public final TextView likesTv;
-        public Post mItem;
+    class ViewHolder extends RecyclerView.ViewHolder {
+        final View mView;
+        final ImageView commentsBtn;
+        final ImageView likesBtn;
+        final TextView likesTv;
+        final TextView titleTv;
+        final ImageView postCoverImg;
+        PostResponse mItem;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             super(view);
             mView = view;
             likesBtn = (ImageView)view.findViewById(R.id.likes_btn);
             commentsBtn = (ImageView)view.findViewById(R.id.comments_btn);
             likesTv = (TextView)view.findViewById(R.id.likes_tv);
+            titleTv = (TextView)view.findViewById(R.id.tv_title);
+            postCoverImg = (ImageView)view.findViewById(R.id.img_post_cover);
         }
     }
 }

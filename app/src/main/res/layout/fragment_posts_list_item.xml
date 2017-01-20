@@ -20,6 +20,7 @@
             android:src="@drawable/ic_test_user_image"/>
 
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -36,6 +37,7 @@
     </LinearLayout>
 
     <ImageView
+        android:id="@+id/img_post_cover"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:src="@drawable/ic_placeholder"

@@ -15,11 +15,11 @@ import android.widget.ImageView;
 
 import com.mich.android.mich.BaseActivity;
 import com.mich.android.mich.R;
-import com.mich.android.mich.bean.Post;
 import com.mich.android.mich.fragments.MyProfileFragment;
 import com.mich.android.mich.fragments.PostSearchFragment;
 import com.mich.android.mich.fragments.PostsFragment;
 import com.mich.android.mich.fragments.VsFragment;
+import com.mich.android.mich.transport.responses.PostResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -191,7 +191,7 @@ public class NavigationActivity extends BaseActivity
     }
 
     @Override
-    public void onCommentClick(Post post) {
+    public void onCommentClick(PostResponse postResponse) {
         startActivity(new Intent(this,CommentsActivity.class));
     }
 
