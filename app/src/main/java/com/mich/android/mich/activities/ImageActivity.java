@@ -11,11 +11,16 @@ import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.mich.android.mich.BaseActivity;
 import com.mich.android.mich.R;
+import com.mich.android.mich.transport.DoPostCallback;
+import com.mich.android.mich.transport.MichTransport;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -27,6 +32,8 @@ import java.util.Date;
 public class ImageActivity extends BaseActivity {
 
     ImageView image;
+    EditText titleEt;
+    Button postBtn;
     static final int REQUEST_TAKE_PHOTO = 1;
     static final int RESULT_LOAD_IMG = 2;
     boolean isCamera = false;
@@ -38,6 +45,8 @@ public class ImageActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         image = (ImageView)findViewById(R.id.image);
+        titleEt = (EditText)findViewById(R.id.et_title);
+        postBtn = (Button)findViewById(R.id.btn_post);
 
         Bundle b = getIntent().getExtras();
 
@@ -102,12 +111,24 @@ public class ImageActivity extends BaseActivity {
                     e.printStackTrace();
                     Toast.makeText(ImageActivity.this, "Something went wrong", Toast.LENGTH_LONG).show();
                 }
-
+                postBtn.setEnabled(true);
             } else {
                 Toast.makeText(ImageActivity.this, "You haven't picked Image", Toast.LENGTH_LONG).show();
+                postBtn.setEnabled(true);
             }
         }
 
+
+    }
+
+    public void onPostBtnClick(View sender){
+        String title = titleEt.getText().toString();
+        MichTransport.getInstance().uploadPost(this, title, new DoPostCallback<Void>() {
+            @Override
+            public void onLoad(int code, String message, Void data) {
+                finish();
+            }
+        });
 
     }
 

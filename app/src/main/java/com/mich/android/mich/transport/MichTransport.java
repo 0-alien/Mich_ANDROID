@@ -10,6 +10,7 @@ import com.koushikdutta.ion.Ion;
 import com.mich.android.mich.App;
 import com.mich.android.mich.transport.requests.BaseAuthorizedRequest;
 import com.mich.android.mich.transport.requests.Request;
+import com.mich.android.mich.transport.requests.UploadPostRequest;
 import com.mich.android.mich.transport.responses.BaseResponse;
 import com.mich.android.mich.transport.requests.UsernameLoginRequest;
 import com.mich.android.mich.transport.responses.LoginResponse;
@@ -39,8 +40,8 @@ public class MichTransport {
     }
 
 
-    public void doPost(Context context , String url, final Request request, final Type type, final DoPostCallback callBack ){
-        Log.d("REQUEST",request.toJson());
+    public void doPost(Context context , final String url, final Request request, final Type type, final DoPostCallback callBack ){
+        Log.d("REQUEST", url + "\n" + request.toJson());
         Ion.with(context).
                 load(url).
                 setHeader("X-Mashape-Key","9cmTk6a4R5mshxwFT8LXGrOwhSk1p1ngAIMjsnvr9Z9dIoeDHT").
@@ -51,13 +52,13 @@ public class MichTransport {
                 setCallback(new FutureCallback<BaseResponse>() {
                     @Override
                     public void onCompleted(Exception e, BaseResponse result) {
-                        Log.d("RESPONSE_CAME",result+"");
+                        Log.d("RESPONSE_CAME_FROM", url + "\n" + result);
                         if(e != null){
-                            Log.d("RESPONSE_ERROR_CODE",e.getMessage());
-                            Log.d("RESPONSE_ERROR_MESSAGE",e.getMessage());
+                            Log.d("RESPONSE_ERROR_CODE",url + "\n" + e.getMessage());
+                            Log.d("RESPONSE_ERROR_MESSAGE",url + "\n" + e.getMessage());
                         }
                         if( result != null){
-                            Log.d("RESPONSE_OBJECT", result.toJson());
+                            Log.d("RESPONSE_OBJECT", url + "\n" + result.toJson());
                             Gson gson = new Gson();
                             Object o;
                             try {
@@ -79,12 +80,16 @@ public class MichTransport {
     }
 
     public void loadUserData(Context context,DoPostCallback<UserDataResponse> callback){
-        doPost(context,BASE_URL+"user/get",new BaseAuthorizedRequest(App.getInstance().getLoginToken()),UserDataResponse.class,callback);
+        doPost(context,BASE_URL+"user/get",new BaseAuthorizedRequest(),UserDataResponse.class,callback);
     }
 
 
     public void loadPosts(Context context, DoPostCallback<ArrayList<PostResponse>> callback){
         doPost(context, BASE_URL+ "feed/get", new BaseAuthorizedRequest(App.getInstance().getLoginToken()), new TypeToken<ArrayList<PostResponse>>(){}.getType(), callback);
+    }
+
+    public void uploadPost(Context context,String title, DoPostCallback<Void> callback){
+        doPost(context, BASE_URL+ "post/create", new UploadPostRequest(title), Void.class, callback);
     }
 
 
