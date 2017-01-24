@@ -1,11 +1,13 @@
 package com.mich.android.mich.activities;
 
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.content.FileProvider;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 
 import com.mich.android.mich.BaseActivity;
 import com.mich.android.mich.R;
+import com.mich.android.mich.Utils;
 import com.mich.android.mich.transport.DoPostCallback;
 import com.mich.android.mich.transport.MichTransport;
 
@@ -93,8 +96,10 @@ public class ImageActivity extends BaseActivity {
                         getContentResolver(), imageUri);
                 image.setImageBitmap(thumbnail);
                 String imageurl = getRealPathFromURI(imageUri);
+                postBtn.setEnabled(true);
             } catch (Exception e) {
                 e.printStackTrace();
+                postBtn.setEnabled(false);
             }
 
         }
@@ -114,7 +119,7 @@ public class ImageActivity extends BaseActivity {
                 postBtn.setEnabled(true);
             } else {
                 Toast.makeText(ImageActivity.this, "You haven't picked Image", Toast.LENGTH_LONG).show();
-                postBtn.setEnabled(true);
+                postBtn.setEnabled(false);
             }
         }
 
@@ -122,18 +127,56 @@ public class ImageActivity extends BaseActivity {
     }
 
     public void onPostBtnClick(View sender){
-        String title = titleEt.getText().toString();
-        MichTransport.getInstance().uploadPost(this, title, new DoPostCallback<Void>() {
-            @Override
-            public void onLoad(int code, String message, Void data) {
-                finish();
-            }
-        });
+//        String title = titleEt.getText().toString();
+//        final ProgressDialog dialog = ProgressDialog.show(this, "",
+//                "Loading. Please wait...", true);
+
+        ImageToByteArrayTask task = new ImageToByteArrayTask();
+        task.setTitle(titleEt.getText().toString());
+        task.execute(image);
+
+
+
+
 
     }
 
 
 
+
+    private class ImageToByteArrayTask extends AsyncTask<ImageView, Void, String > {
+
+        String title;
+        ProgressDialog dialog;
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog = ProgressDialog.show(ImageActivity.this, "",
+                    "Loading. Please wait...", true);
+
+        }
+
+        protected String  doInBackground(ImageView... args) {
+            return Utils.getBytesFromImageView(args[0]);
+        }
+
+
+
+        protected void onPostExecute(String  img) {
+            MichTransport.getInstance().uploadPost(ImageActivity.this, title, img, new DoPostCallback<Void>() {
+                @Override
+                public void onLoad(int code, String message, Void data) {
+                    dialog.dismiss();
+                    ImageActivity.this.finish();
+                }
+            });
+        }
+    }
 
 
 

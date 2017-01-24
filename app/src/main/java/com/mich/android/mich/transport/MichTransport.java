@@ -1,6 +1,7 @@
 package com.mich.android.mich.transport;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.util.Log;
 
 import com.google.gson.Gson;
@@ -40,39 +41,58 @@ public class MichTransport {
     }
 
 
-    public void doPost(Context context , final String url, final Request request, final Type type, final DoPostCallback callBack ){
-        Log.d("REQUEST", url + "\n" + request.toJson());
-        Ion.with(context).
-                load(url).
-                setHeader("X-Mashape-Key","9cmTk6a4R5mshxwFT8LXGrOwhSk1p1ngAIMjsnvr9Z9dIoeDHT").
-                setHeader("Content-Type","application/x-www-form-urlencoded").
-                setHeader("Accept","application/json").
-                setBodyParameter("payload",request.toJson()).
-                as(BaseResponse.class).
-                setCallback(new FutureCallback<BaseResponse>() {
-                    @Override
-                    public void onCompleted(Exception e, BaseResponse result) {
-                        Log.d("RESPONSE_CAME_FROM", url + "\n" + result);
-                        if(e != null){
-                            Log.d("RESPONSE_ERROR_CODE",url + "\n" + e.getMessage());
-                            Log.d("RESPONSE_ERROR_MESSAGE",url + "\n" + e.getMessage());
-                        }
-                        if( result != null){
-                            Log.d("RESPONSE_OBJECT", url + "\n" + result.toJson());
-                            Gson gson = new Gson();
-                            Object o;
-                            try {
-                                String json = gson.toJson(result.data);
-                                o = gson.fromJson(json, type);
-                            }catch (Exception ex){
-                                o = null;
+    public void doPost(final Context context , final String url, final Request request, final Type type, final DoPostCallback callBack ){
+
+
+        new AsyncTask<Request,Void,String>(){
+
+            @Override
+            protected String doInBackground(Request... params) {
+                return params[0].toJson();
+            }
+
+            @Override
+            protected void onPostExecute(String requestToJson) {
+                super.onPostExecute(requestToJson);
+
+                Log.d("REQUEST", url + "\n" + requestToJson);
+                Ion.with(context).
+                        load(url).
+                        setHeader("X-Mashape-Key","9cmTk6a4R5mshxwFT8LXGrOwhSk1p1ngAIMjsnvr9Z9dIoeDHT").
+                        setHeader("Content-Type","application/x-www-form-urlencoded").
+                        setHeader("Accept","application/json").
+                        setTimeout(3600000).
+                        setBodyParameter("payload",requestToJson).
+                        as(BaseResponse.class).
+                        setCallback(new FutureCallback<BaseResponse>() {
+                            @Override
+                            public void onCompleted(Exception e, BaseResponse result) {
+                                Log.d("RESPONSE_CAME_FROM", url + "\n" + result);
+                                if(e != null){
+                                    Log.d("RESPONSE_ERROR_MESSAGE",url + "\n" + e.getMessage());
+                                }
+                                if( result != null){
+                                    Log.d("RESPONSE_OBJECT", url + "\n" + result.toJson());
+                                    Gson gson = new Gson();
+                                    Object o;
+                                    try {
+                                        String json = gson.toJson(result.data);
+                                        o = gson.fromJson(json, type);
+                                    }catch (Exception ex){
+                                        o = null;
+                                    }
+                                    callBack.onLoad(result.code,result.message,o);
+                                } else {
+                                    callBack.onLoad(LOAD_ERROR_NO_RESULT,null,null);
+                                }
                             }
-                            callBack.onLoad(result.code,result.message,o);
-                        } else {
-                            callBack.onLoad(LOAD_ERROR_NO_RESULT,null,null);
-                        }
-                    }
-                });
+                        });
+
+
+            }
+        }.execute(request);
+
+
     }
 
     public void userNameLogin(Context context, String userName, String password, DoPostCallback<LoginResponse> callback){
@@ -88,8 +108,8 @@ public class MichTransport {
         doPost(context, BASE_URL+ "feed/get", new BaseAuthorizedRequest(App.getInstance().getLoginToken()), new TypeToken<ArrayList<PostResponse>>(){}.getType(), callback);
     }
 
-    public void uploadPost(Context context,String title, DoPostCallback<Void> callback){
-        doPost(context, BASE_URL+ "post/create", new UploadPostRequest(title), Void.class, callback);
+    public void uploadPost(Context context,String title, String image, DoPostCallback<Void> callback){
+        doPost(context, BASE_URL+ "post/create", new UploadPostRequest(title,image), Void.class, callback);
     }
 
 
