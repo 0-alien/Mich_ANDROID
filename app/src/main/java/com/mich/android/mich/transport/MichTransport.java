@@ -21,6 +21,7 @@ import com.mich.android.mich.transport.responses.UserDataResponse;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MichTransport {
 
@@ -42,14 +43,15 @@ public class MichTransport {
     }
 
 
-    public void doPost(final Context context , final String url, final Request request, final Type type, final DoPostCallback callBack ){
+    public void doPost(final Context context , final String url, final Object request, final Type type, final DoPostCallback callBack ){
 
 
-        new AsyncTask<Request,Void,String>(){
+        new AsyncTask<Object,Void,String>(){
 
             @Override
-            protected String doInBackground(Request... params) {
-                return params[0].toJson();
+            protected String doInBackground(Object... params) {
+                Gson gson = new Gson();
+                return gson.toJson(params[0]);
             }
 
             @Override
@@ -117,6 +119,27 @@ public class MichTransport {
     public void uploadPost(Context context,String title, String image, DoPostCallback<Void> callback){
         doPost(context, BASE_URL+ "post/create", new UploadPostRequest(title,image), Void.class, callback);
     }
+
+    public void sendRecovery(Context context,String username, DoPostCallback<LoginResponse> callback){
+        HashMap<String ,String> map = new HashMap<>();
+        map.put("username",username);
+        doPost(context, BASE_URL+ "auth/sendRecovery", map, LoginResponse.class, callback);
+    }
+
+    public void checkCode(Context context, String token, String code, DoPostCallback<Void> callback){
+        HashMap<String ,String> map = new HashMap<>();
+        map.put("token",token);
+        map.put("code",code);
+        doPost(context, BASE_URL+ "auth/checkCode", map, Void.class, callback);
+    }
+
+    public void recover(Context context,String token,String password, DoPostCallback<Void> callback){
+        HashMap<String ,String> map = new HashMap<>();
+        map.put("token",token);
+        map.put("password",password);
+        doPost(context, BASE_URL+ "auth/recover", map, Void.class, callback);
+    }
+
 
 
 
