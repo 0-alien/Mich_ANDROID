@@ -8,13 +8,18 @@ import android.widget.EditText;
 import com.koushikdutta.async.future.FutureCallback;
 import com.mich.android.mich.BaseActivity;
 import com.mich.android.mich.R;
+import com.mich.android.mich.transport.DoPostCallback;
 import com.mich.android.mich.transport.MichTransport;
 import com.mich.android.mich.transport.responses.RegisterResponse;
+
+import java.text.BreakIterator;
 
 public class RegisterActivity extends BaseActivity {
 
     EditText etUserName;
-    
+    EditText etPassword;
+    EditText etEmail;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,20 +34,25 @@ public class RegisterActivity extends BaseActivity {
 
     private void initViewsById() {
         etUserName = (EditText) findViewById(R.id.et_user_name);
+        etPassword = (EditText) findViewById(R.id.et_password);
+        etEmail = (EditText) findViewById(R.id.et_email);
     }
 
 
     public void onRegisterClick(View sender){
         Log.d("TAG",etUserName.getText().toString());
         String username = etUserName.getText().toString();
+        String email = etEmail.getText().toString();
+        String password = etPassword.getText().toString();
 
-        FutureCallback<RegisterResponse> callback = new FutureCallback<RegisterResponse>() {
+        MichTransport.getInstance().register(this, username,email, password, new DoPostCallback<Void>() {
             @Override
-            public void onCompleted(Exception e, RegisterResponse result) {
-
+            public void onLoad(int code, String message, Void data) {
+                finish();
             }
-        };
-        //TODO register user
+        });
+
+
 
     }
 

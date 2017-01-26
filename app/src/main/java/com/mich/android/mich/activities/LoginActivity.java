@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +37,8 @@ public class LoginActivity extends BaseActivity {
     private SignInButton mGoogleSignInButton;
     private GoogleApiClient mGoogleApiClient;
     private TextView forgotPasswordTv;
+    private EditText etUsername;
+    private EditText etPassword;
 
 
     @Override
@@ -47,7 +50,7 @@ public class LoginActivity extends BaseActivity {
         FacebookSdk.sdkInitialize(getApplicationContext());
         mFacebookCallbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_login);
-
+        initViews();
         forgotPasswordTv = (TextView)findViewById(R.id.tv_forgot_password);
         forgotPasswordTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +70,11 @@ public class LoginActivity extends BaseActivity {
         });
 
 
+    }
+
+    private void initViews(){
+        etPassword = (EditText)findViewById(R.id.et_password);
+        etUsername = (EditText)findViewById(R.id.et_user_name);
     }
 
     private void signInWithGoogle() {
@@ -140,7 +148,7 @@ public class LoginActivity extends BaseActivity {
         final ProgressDialog dialog = ProgressDialog.show(this, "",
                 "Loading. Please wait...", true);
 
-        MichTransport.getInstance().userNameLogin(this, "alien@post.com", "mypass", new DoPostCallback<LoginResponse>() {
+        MichTransport.getInstance().userNameLogin(this, etUsername.getText().toString(), etPassword.getText().toString(), new DoPostCallback<LoginResponse>() {
             @Override
             public void onLoad(int code, String message, LoginResponse data) {
                 dialog.dismiss();

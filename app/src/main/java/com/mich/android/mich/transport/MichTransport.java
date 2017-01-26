@@ -10,6 +10,7 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 import com.mich.android.mich.App;
 import com.mich.android.mich.transport.requests.BaseAuthorizedRequest;
+import com.mich.android.mich.transport.requests.RegisterRequest;
 import com.mich.android.mich.transport.requests.Request;
 import com.mich.android.mich.transport.requests.UploadPostRequest;
 import com.mich.android.mich.transport.responses.BaseResponse;
@@ -24,7 +25,7 @@ import java.util.ArrayList;
 public class MichTransport {
 
     private static MichTransport instance;
-    private static final String BASE_URL = "https://0-alien-mich-v1.p.mashape.com/";
+    private static final String BASE_URL = "http://46.101.196.48/public/index.php/api/";
     public static final int LOAD_ERROR_NO_RESULT = -1;
     public static final int LOAD_SUCCESS = 10;
 
@@ -62,7 +63,7 @@ public class MichTransport {
                         setHeader("Content-Type","application/x-www-form-urlencoded").
                         setHeader("Accept","application/json").
                         setTimeout(3600000).
-                        setBodyParameter("payload",requestToJson).
+                        setStringBody(requestToJson).
                         as(BaseResponse.class).
                         setCallback(new FutureCallback<BaseResponse>() {
                             @Override
@@ -95,6 +96,11 @@ public class MichTransport {
 
     }
 
+
+    public void register(Context context, String userName, String email,String password, DoPostCallback<Void> callback){
+        doPost(context, BASE_URL + "auth/register",new RegisterRequest(userName,email,password), Void.class, callback);
+    }
+
     public void userNameLogin(Context context, String userName, String password, DoPostCallback<LoginResponse> callback){
         doPost(context, BASE_URL + "auth/login",new UsernameLoginRequest(userName,password), LoginResponse.class, callback);
     }
@@ -105,7 +111,7 @@ public class MichTransport {
 
 
     public void loadPosts(Context context, DoPostCallback<ArrayList<PostResponse>> callback){
-        doPost(context, BASE_URL+ "feed/get", new BaseAuthorizedRequest(App.getInstance().getLoginToken()), new TypeToken<ArrayList<PostResponse>>(){}.getType(), callback);
+        doPost(context, BASE_URL+ "post/feed", new BaseAuthorizedRequest(App.getInstance().getLoginToken()), new TypeToken<ArrayList<PostResponse>>(){}.getType(), callback);
     }
 
     public void uploadPost(Context context,String title, String image, DoPostCallback<Void> callback){
