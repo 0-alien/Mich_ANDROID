@@ -55,14 +55,13 @@ public class PostsFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Posts
                 }
             }
         });
-        holder.likesTv.setText(holder.mItem.likes+"");
+        holder.likesTv.setText(holder.mItem.getLikes()+"");
         holder.titleTv.setText(holder.mItem.getTitle());
         Utils.loadUrlInImageView(context,holder.postCoverImg,holder.mItem.getImage());
         holder.likesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                holder.mItem.likes++;
-                holder.likesTv.setText(holder.mItem.likes+"");
+
             }
         });
 

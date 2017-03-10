@@ -12,13 +12,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.mich.android.mich.BaseActivity;
 import com.mich.android.mich.R;
+import com.mich.android.mich.Utils;
 import com.mich.android.mich.fragments.MyProfileFragment;
 import com.mich.android.mich.fragments.PostSearchFragment;
 import com.mich.android.mich.fragments.PostsFragment;
 import com.mich.android.mich.fragments.VsFragment;
+import com.mich.android.mich.transport.DoPostCallback;
+import com.mich.android.mich.transport.MichTransport;
 import com.mich.android.mich.transport.responses.PostResponse;
 
 import java.util.ArrayList;
@@ -26,11 +31,12 @@ import java.util.List;
 
 public class NavigationActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        PostsFragment.OnListFragmentInteractionListener{
+        PostsFragment.OnListFragmentInteractionListener, View.OnClickListener{
 
     Toolbar toolbar;
     List<ImageView> tabButtons;
     FrameLayout fragmentPlaceholder;
+    LinearLayout logoutBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +46,9 @@ public class NavigationActivity extends BaseActivity
         initDrawerLayout();
         initTabButtons();
         selectPage(0);
+        logoutBtn = (LinearLayout)findViewById(R.id.logout_btn);
+        logoutBtn.setOnClickListener(this);
+
     }
 
     private void initTabButtons() {
@@ -196,5 +205,16 @@ public class NavigationActivity extends BaseActivity
     }
 
 
-
+    @Override
+    public void onClick(View v) {
+        if (v == logoutBtn){
+            finish();
+            MichTransport.getInstance().logout(this, new DoPostCallback<Void>() {
+                @Override
+                public void onLoad(int code, String message, Void data) {
+                    Toast.makeText(NavigationActivity.this, "logged out" ,Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
 }

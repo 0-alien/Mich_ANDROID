@@ -28,6 +28,7 @@
         app:menu="@menu/activity_navigation_drawer" >
         
         <LinearLayout
+            android:id="@+id/logout_btn"
             android:layout_margin="10dp"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_width="wrap_content"
