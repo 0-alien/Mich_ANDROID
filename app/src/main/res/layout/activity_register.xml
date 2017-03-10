@@ -37,18 +37,8 @@
                     android:src="@drawable/mich_logo"/>
 
                 <EditText
+                    android:id="@+id/et_full_name"
                     android:hint="@string/name"
-                    android:layout_marginTop="20dp"
-                    android:layout_width="match_parent"
-                    android:paddingLeft="16dp"
-                    android:layout_height="50dp"
-                    android:singleLine="true"
-                    android:imeOptions="actionNext"
-                    android:background="@drawable/register_rounded_edit_text_selector"/>
-
-
-                <EditText
-                    android:hint="Lastname"
                     android:layout_marginTop="20dp"
                     android:layout_width="match_parent"
                     android:paddingLeft="16dp"

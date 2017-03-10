@@ -19,6 +19,7 @@ public class RegisterActivity extends BaseActivity {
     EditText etUserName;
     EditText etPassword;
     EditText etEmail;
+    EditText etFullName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class RegisterActivity extends BaseActivity {
         etUserName = (EditText) findViewById(R.id.et_user_name);
         etPassword = (EditText) findViewById(R.id.et_password);
         etEmail = (EditText) findViewById(R.id.et_email);
+        etFullName = (EditText) findViewById(R.id.et_full_name);
     }
 
 
@@ -44,8 +46,9 @@ public class RegisterActivity extends BaseActivity {
         String username = etUserName.getText().toString();
         String email = etEmail.getText().toString();
         String password = etPassword.getText().toString();
+        String name = etFullName.getText().toString();
 
-        MichTransport.getInstance().register(this, username,email, password, new DoPostCallback<Void>() {
+        MichTransport.getInstance().register(this, username,email, password,name, new DoPostCallback<Void>() {
             @Override
             public void onLoad(int code, String message, Void data) {
                 finish();

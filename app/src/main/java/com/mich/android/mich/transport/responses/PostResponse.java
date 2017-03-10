@@ -6,15 +6,18 @@ package com.mich.android.mich.transport.responses;
 
 public class PostResponse {
 
-    int user_id;
+    int userid;
+    int id;
     String title;
     String image;
     String created_at;
     String updated_at;
-    public int likes;
+    int likes;
+    int mylikes;
+    int ncomments;
 
-    public int getUser_id() {
-        return user_id;
+    public int getUserid() {
+        return userid;
     }
 
     public String getTitle() {
@@ -37,4 +40,15 @@ public class PostResponse {
         return likes;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public int getMylikes() {
+        return mylikes;
+    }
+
+    public int getNcomments() {
+        return ncomments;
+    }
 }

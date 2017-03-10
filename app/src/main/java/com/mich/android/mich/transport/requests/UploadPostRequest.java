@@ -7,7 +7,6 @@ public class UploadPostRequest extends BaseAuthorizedRequest {
     String  image;
 
     public UploadPostRequest(String title, String image){
-        super();
         this.title = title;
         this.image = image;
     }

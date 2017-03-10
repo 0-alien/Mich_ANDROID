@@ -148,7 +148,16 @@ public class LoginActivity extends BaseActivity {
         final ProgressDialog dialog = ProgressDialog.show(this, "",
                 "Loading. Please wait...", true);
 
-        MichTransport.getInstance().userNameLogin(this, etUsername.getText().toString(), etPassword.getText().toString(), new DoPostCallback<LoginResponse>() {
+
+        // real
+//        String username = etUsername.getText().toString();
+//        String password = etPassword.getText().toString();
+
+        // test
+        String username = "sabagogolidze";
+        String password = "123456";
+
+        MichTransport.getInstance().userNameLogin(this, username, password, new DoPostCallback<LoginResponse>() {
             @Override
             public void onLoad(int code, String message, LoginResponse data) {
                 dialog.dismiss();

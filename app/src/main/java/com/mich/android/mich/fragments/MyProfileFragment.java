@@ -2,7 +2,6 @@ package com.mich.android.mich.fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,15 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
-import com.koushikdutta.async.future.FutureCallback;
-import com.koushikdutta.ion.Ion;
 import com.mich.android.mich.R;
 import com.mich.android.mich.Utils;
 import com.mich.android.mich.transport.DoPostCallback;
 import com.mich.android.mich.transport.MichTransport;
-import com.mich.android.mich.transport.responses.UserDataResponse;
+import com.mich.android.mich.transport.responses.UserResponse;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -81,9 +77,9 @@ public class MyProfileFragment extends Fragment {
         final ProgressDialog dialog = ProgressDialog.show(getActivity(), "",
                 "Loading. Please wait...", true);
 
-        MichTransport.getInstance().loadUserData(getActivity(), new DoPostCallback<UserDataResponse>() {
+        MichTransport.getInstance().loadCurrentUserData(getActivity(), new DoPostCallback<UserResponse>() {
             @Override
-            public void onLoad(int code, String message, UserDataResponse data) {
+            public void onLoad(int code, String message, UserResponse data) {
                 dialog.dismiss();
                 if (code == MichTransport.LOAD_SUCCESS){
                     Utils.loadUrlInImageView(getActivity(),avatar,data.getAvatar());

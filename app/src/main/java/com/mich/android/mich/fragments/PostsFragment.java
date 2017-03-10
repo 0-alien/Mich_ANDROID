@@ -103,7 +103,7 @@ public class PostsFragment extends Fragment{
     }
 
     public void getPosts() {
-        MichTransport.getInstance().loadPosts(getActivity(), new DoPostCallback<ArrayList<PostResponse>>() {
+        MichTransport.getInstance().loadFeed(getActivity(), new DoPostCallback<ArrayList<PostResponse>>() {
             @Override
             public void onLoad(int code, String message, ArrayList<PostResponse> data) {
                 PostsFragment.this.adapter.setPostResponses(data);
