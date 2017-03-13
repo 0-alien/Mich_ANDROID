@@ -6,8 +6,8 @@ package com.mich.android.mich.transport.responses;
 
 public class PostResponse {
 
-    int userid;
     int id;
+    int userid;
     String title;
     String image;
     String created_at;

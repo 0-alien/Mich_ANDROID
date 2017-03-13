@@ -5,11 +5,20 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
 import com.mich.android.mich.R;
+import com.mich.android.mich.transport.DoPostCallback;
+import com.mich.android.mich.transport.MichTransport;
+import com.mich.android.mich.transport.responses.PostResponse;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,22 +27,18 @@ import com.mich.android.mich.R;
  * Use the {@link PostSearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PostSearchFragment extends Fragment {
+public class PostSearchFragment extends Fragment implements TextWatcher {
 
 
-
+    private RecyclerView recyclerView;
+    private View view;
+    private Context context;
+    private static ArrayList<PostResponse> explorePostsCache;
+    private boolean searching = false;
 
     public PostSearchFragment() {
-        // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @return A new instance of fragment PostSearchFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static PostSearchFragment newInstance() {
         PostSearchFragment fragment = new PostSearchFragment();
         Bundle args = new Bundle();
@@ -49,15 +54,38 @@ public class PostSearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_post_search, container, false);
+        view = inflater.inflate(R.layout.fragment_post_search, container, false);
 
-        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.list);
-        Context context = view.getContext();
-
-        recyclerView.setLayoutManager(new GridLayoutManager(context,3));
-
-        recyclerView.setAdapter(new PostSearchRecyclerViewAdapter());
+        recyclerView = (RecyclerView) view.findViewById(R.id.list);
+        context = view.getContext();
+        setExplorePage();
+        loadExplorePosts();
         return view;
+    }
+
+    private void loadExplorePosts() {
+        MichTransport.getInstance().explore(context, new DoPostCallback<ArrayList<PostResponse>>() {
+            @Override
+            public void onLoad(int code, String message, ArrayList<PostResponse> data) {
+                if(code == MichTransport.LOAD_SUCCESS){
+                    explorePostsCache = data;
+                    if(!searching) {
+                        setExplorePage();
+                    }
+                }
+            }
+        });
+    }
+
+    private void setExplorePage(){
+        recyclerView.setLayoutManager(new GridLayoutManager(context,3));
+        recyclerView.setAdapter(new ExploreRecyclerViewAdapter(context,explorePostsCache));
+    }
+
+
+    private void setSearchPage(){
+        recyclerView.setLayoutManager(new GridLayoutManager(context,3));
+        recyclerView.setAdapter(new ExploreRecyclerViewAdapter(context,explorePostsCache));
     }
 
 
@@ -74,4 +102,23 @@ public class PostSearchFragment extends Fragment {
     }
 
 
+    @Override
+    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+    }
+
+    @Override
+    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+    }
+
+    @Override
+    public void afterTextChanged(Editable s) {
+        String string = s.toString();
+        if(string.equals("")){
+            searching = false;
+        }else {
+            searching = true;
+        }
+    }
 }

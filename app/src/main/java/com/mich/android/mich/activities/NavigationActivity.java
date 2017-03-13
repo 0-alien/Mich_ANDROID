@@ -1,6 +1,7 @@
 package com.mich.android.mich.activities;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -8,11 +9,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mich.android.mich.BaseActivity;
@@ -37,6 +44,7 @@ public class NavigationActivity extends BaseActivity
     List<ImageView> tabButtons;
     FrameLayout fragmentPlaceholder;
     LinearLayout logoutBtn;
+    private EditText searchET;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +54,7 @@ public class NavigationActivity extends BaseActivity
         initDrawerLayout();
         initTabButtons();
         selectPage(0);
+        searchET = (EditText)findViewById(R.id.search_view_et);
         logoutBtn = (LinearLayout)findViewById(R.id.logout_btn);
         logoutBtn.setOnClickListener(this);
 
@@ -98,6 +107,12 @@ public class NavigationActivity extends BaseActivity
 
 
     private void selectPage(int selectedPos){
+        searchET.setText("");
+        if(selectedPos == 3){
+            findViewById(R.id.search_view).setVisibility(View.VISIBLE);
+        }else{
+            findViewById(R.id.search_view).setVisibility(View.INVISIBLE);
+        }
         if(selectedPos == 2){
             if(findViewById(R.id.gallery_photo_chooser).getVisibility() == View.VISIBLE){
                 findViewById(R.id.gallery_photo_chooser).setVisibility(View.GONE);
@@ -110,6 +125,8 @@ public class NavigationActivity extends BaseActivity
             android.support.v4.app.FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.fragment_placeholder, fragment);
             ft.commit();
+
+
 
             tabButtons.get(0).setImageResource(R.drawable.ic_home_tab_inactive);
             tabButtons.get(1).setImageResource(R.drawable.ic_vs_tab_inactive);
@@ -143,7 +160,10 @@ public class NavigationActivity extends BaseActivity
             case 1:
                 return VsFragment.newInstance();
             case 3:
-                return PostSearchFragment.newInstance();
+                PostSearchFragment fr = PostSearchFragment.newInstance();
+                searchET.addTextChangedListener(fr);
+                searchET.setImeOptions(EditorInfo.IME_ACTION_DONE);
+                return fr;
             case 4:
                 return MyProfileFragment.newInstance();
         }

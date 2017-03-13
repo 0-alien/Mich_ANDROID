@@ -7,7 +7,7 @@
     
     
     <com.mich.android.mich.customview.SquareImageView
-        android:src="@drawable/ic_login_background"
+        android:id="@+id/img"
         android:layout_width="match_parent"
         android:scaleType="centerCrop"
         android:layout_height="wrap_content" />
