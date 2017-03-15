@@ -12,12 +12,21 @@ public class PostResponse {
     String image;
     String created_at;
     String updated_at;
+    String avatar;
     int likes;
     int mylikes;
     int ncomments;
 
     public int getUserid() {
         return userid;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getTitle() {
@@ -50,5 +59,9 @@ public class PostResponse {
 
     public int getNcomments() {
         return ncomments;
+    }
+
+    public void setLikes(int likes) {
+        this.likes = likes;
     }
 }

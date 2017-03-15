@@ -15,10 +15,11 @@
         android:layout_height="70dp"
         android:orientation="horizontal">
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_avatar"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_margin="10dp"
-            android:src="@drawable/ic_test_user_image"/>
+            android:src="@android:color/darker_gray"/>
 
         <TextView
             android:id="@+id/tv_title"
@@ -37,14 +38,31 @@
         
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/img_post_cover"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:src="@drawable/ic_placeholder"
-        android:scaleType="centerCrop"
-        android:layout_marginBottom="8dp"
-        />
+        android:layout_height="200dp">
+
+        <ImageView
+            android:id="@+id/img_post_cover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_placeholder"
+            android:scaleType="centerCrop"
+            android:layout_marginBottom="8dp"
+            />
+
+
+        <ImageView
+            android:id="@+id/img_fire"
+            android:layout_margin="36dp"
+            android:layout_width="match_parent"
+            android:visibility="invisible"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_fire"/>
+
+    </FrameLayout>
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
