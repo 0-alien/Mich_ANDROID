@@ -126,7 +126,7 @@ public class UserDetailsActivity extends BaseActivity {
     private View.OnClickListener onUnFollowCLickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            MichTransport.getInstance().followUserByID(UserDetailsActivity.this, user.getId(), new DoPostCallback<Void>() {
+            MichTransport.getInstance().unfollow(UserDetailsActivity.this, user.getId(), new DoPostCallback<Void>() {
                 @Override
                 public void onLoad(int code, String message, Void data) {
                     if(code == MichTransport.LOAD_SUCCESS){
