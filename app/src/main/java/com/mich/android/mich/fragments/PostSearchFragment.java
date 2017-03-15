@@ -4,19 +4,19 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
 import com.mich.android.mich.R;
 import com.mich.android.mich.transport.DoPostCallback;
 import com.mich.android.mich.transport.MichTransport;
 import com.mich.android.mich.transport.responses.PostResponse;
+import com.mich.android.mich.transport.responses.UserResponse;
 
 import java.util.ArrayList;
 
@@ -34,6 +34,7 @@ public class PostSearchFragment extends Fragment implements TextWatcher {
     private View view;
     private Context context;
     private static ArrayList<PostResponse> explorePostsCache;
+    private static ArrayList<UserResponse> userSearchCache;
     private boolean searching = false;
 
     public PostSearchFragment() {
@@ -79,13 +80,13 @@ public class PostSearchFragment extends Fragment implements TextWatcher {
 
     private void setExplorePage(){
         recyclerView.setLayoutManager(new GridLayoutManager(context,3));
-        recyclerView.setAdapter(new ExploreRecyclerViewAdapter(context,explorePostsCache));
+        recyclerView.setAdapter(new PostImagesRecyclerViewAdapter(context,explorePostsCache));
     }
 
 
     private void setSearchPage(){
-        recyclerView.setLayoutManager(new GridLayoutManager(context,3));
-        recyclerView.setAdapter(new ExploreRecyclerViewAdapter(context,explorePostsCache));
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setAdapter(new UserSearchAdapter(context, userSearchCache));
     }
 
 
@@ -117,8 +118,25 @@ public class PostSearchFragment extends Fragment implements TextWatcher {
         String string = s.toString();
         if(string.equals("")){
             searching = false;
+            setExplorePage();
         }else {
             searching = true;
+            setSearchPage();
+            loadSearchingList(string);
         }
+
+
+
+    }
+
+    private void loadSearchingList(String string) {
+
+        MichTransport.getInstance().searchUsers(context, string, new DoPostCallback<ArrayList<UserResponse>>() {
+            @Override
+            public void onLoad(int code, String message, ArrayList<UserResponse> data) {
+                PostSearchFragment.userSearchCache = data;
+                setSearchPage();
+            }
+        });
     }
 }

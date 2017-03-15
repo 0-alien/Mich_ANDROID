@@ -1,6 +1,8 @@
 package com.mich.android.mich.fragments;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.mich.android.mich.R;
 import com.mich.android.mich.Utils;
+import com.mich.android.mich.activities.UserDetailsActivity;
 import com.mich.android.mich.transport.responses.PostResponse;
 
 import java.util.List;
@@ -44,7 +48,7 @@ public class PostsFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Posts
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.mItem = mValues.get(position);
 
         holder.commentsBtn.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +66,19 @@ public class PostsFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Posts
             @Override
             public void onClick(View view) {
 
+            }
+        });
+
+        holder.userUpperView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, UserDetailsActivity.class);
+                Bundle b = new Bundle();
+                new Gson();
+                b.putInt("userID", mValues.get(position).getUserid());
+                b.putBoolean("withID", true);
+                intent.putExtras(b);
+                context.startActivity(intent);
             }
         });
 
@@ -84,6 +101,7 @@ public class PostsFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Posts
         final TextView likesTv;
         final TextView titleTv;
         final ImageView postCoverImg;
+        final View userUpperView;
         PostResponse mItem;
 
         ViewHolder(View view) {
@@ -94,6 +112,7 @@ public class PostsFragmentRecyclerViewAdapter extends RecyclerView.Adapter<Posts
             likesTv = (TextView)view.findViewById(R.id.likes_tv);
             titleTv = (TextView)view.findViewById(R.id.tv_title);
             postCoverImg = (ImageView)view.findViewById(R.id.img_post_cover);
+            userUpperView = view.findViewById(R.id.user_upper_view);
         }
     }
 }

@@ -33,8 +33,8 @@ public class PostsFragment extends Fragment{
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
-    private List<PostResponse> postResponses = new ArrayList<PostResponse>();
     private PostsFragmentRecyclerViewAdapter adapter;
+    static List<PostResponse> postResponsesCache = new ArrayList<PostResponse>();
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -76,7 +76,7 @@ public class PostsFragment extends Fragment{
         } else {
             recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
         }
-        adapter = new PostsFragmentRecyclerViewAdapter(getActivity(),postResponses, mListener);
+        adapter = new PostsFragmentRecyclerViewAdapter(getActivity(),postResponsesCache, mListener);
         recyclerView.setAdapter(adapter);
 
         getPosts();
@@ -106,6 +106,7 @@ public class PostsFragment extends Fragment{
         MichTransport.getInstance().loadFeed(getActivity(), new DoPostCallback<ArrayList<PostResponse>>() {
             @Override
             public void onLoad(int code, String message, ArrayList<PostResponse> data) {
+                postResponsesCache = data;
                 PostsFragment.this.adapter.setPostResponses(data);
                 PostsFragment.this.adapter.notifyDataSetChanged();
             }

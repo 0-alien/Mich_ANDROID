@@ -15,7 +15,7 @@ public class MyProfileRecyclerViewAdapter extends RecyclerView.Adapter<MyProfile
 
     @Override
     public MyProfileRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_post_search_recycler_view_item, parent, false);
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_post_image_recycler_view_item, parent, false);
 
         return new MyProfileRecyclerViewAdapter.ViewHolder(itemView);
     }

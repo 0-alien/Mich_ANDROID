@@ -8,6 +8,10 @@ public class App extends Application {
     private String loginToken;
 
 
+
+    private int userID;
+
+
     public static App getInstance(){
         return singleton;
     }
@@ -22,7 +26,15 @@ public class App extends Application {
         this.loginToken = loginToken;
     }
 
-    public String getLoginToken() {
+    public String  getLoginToken() {
         return loginToken;
+    }
+
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
     }
 }

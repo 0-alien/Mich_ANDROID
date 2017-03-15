@@ -13,12 +13,12 @@ import com.mich.android.mich.transport.responses.PostResponse;
 
 import java.util.ArrayList;
 
-public class ExploreRecyclerViewAdapter extends RecyclerView.Adapter<ExploreRecyclerViewAdapter.ViewHolder> {
+public class PostImagesRecyclerViewAdapter extends RecyclerView.Adapter<PostImagesRecyclerViewAdapter.ViewHolder> {
 
     private final Context context;
     private ArrayList<PostResponse> posts;
 
-    public ExploreRecyclerViewAdapter(Context context, ArrayList<PostResponse> posts){
+    public PostImagesRecyclerViewAdapter(Context context, ArrayList<PostResponse> posts){
         this.context = context;
         this.posts = posts;
 
@@ -29,14 +29,14 @@ public class ExploreRecyclerViewAdapter extends RecyclerView.Adapter<ExploreRecy
 
 
     @Override
-    public ExploreRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_post_search_recycler_view_item, parent, false);
+    public PostImagesRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_post_image_recycler_view_item, parent, false);
 
-        return new ExploreRecyclerViewAdapter.ViewHolder(itemView);
+        return new PostImagesRecyclerViewAdapter.ViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(ExploreRecyclerViewAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(PostImagesRecyclerViewAdapter.ViewHolder holder, int position) {
         Utils.loadUrlInImageView(context, holder.img, posts.get(position).getImage());
     }
 

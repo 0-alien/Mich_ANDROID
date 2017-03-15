@@ -56,5 +56,6 @@ dependencies {
     compile 'com.timehop.stickyheadersrecyclerview:library:0.4.3@aar'
     compile 'com.bignerdranch.android:expandablerecyclerview:2.1.1'
     compile 'com.tubb.smrv:swipemenu-recyclerview:5.4.0'
+    compile 'com.android.support.constraint:constraint-layout:+'
     testCompile 'junit:junit:4.12'
 }

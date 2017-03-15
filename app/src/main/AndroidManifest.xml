@@ -28,7 +28,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"></meta-data>
+                android:resource="@xml/file_paths" />
         </provider>
 
         <meta-data
@@ -49,8 +49,8 @@
             android:name=".activities.NavigationActivity"
             android:label="@string/title_activity_navigation"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateVisible|adjustPan"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity
             android:name=".activities.RegisterActivity"
             android:windowSoftInputMode="stateHidden" />
@@ -64,7 +64,8 @@
         <activity android:name=".activities.ForgotPasswordActivity" />
         <activity android:name=".activities.NotificationsActivity" />
         <activity android:name=".activities.ImageActivity" />
-        <activity android:name=".activities.PasswordResetByEmailActivity"></activity>
+        <activity android:name=".activities.PasswordResetByEmailActivity" />
+        <activity android:name=".activities.UserDetailsActivity"></activity>
     </application>
 
 </manifest>

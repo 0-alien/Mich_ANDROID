@@ -8,6 +8,7 @@
     
     <com.mich.android.mich.customview.SquareImageView
         android:id="@+id/img"
+        android:src="@android:color/darker_gray"
         android:layout_width="match_parent"
         android:scaleType="centerCrop"
         android:layout_height="wrap_content" />

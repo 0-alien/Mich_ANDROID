@@ -53,11 +53,10 @@ public class NavigationActivity extends BaseActivity
         setSupportActionBar(toolbar);
         initDrawerLayout();
         initTabButtons();
-        selectPage(0);
         searchET = (EditText)findViewById(R.id.search_view_et);
         logoutBtn = (LinearLayout)findViewById(R.id.logout_btn);
         logoutBtn.setOnClickListener(this);
-
+        selectPage(0);
     }
 
     private void initTabButtons() {

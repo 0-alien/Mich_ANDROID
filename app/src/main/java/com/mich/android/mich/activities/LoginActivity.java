@@ -163,6 +163,7 @@ public class LoginActivity extends BaseActivity {
                 dialog.dismiss();
                 if(code == MichTransport.LOAD_SUCCESS) {
                     App.getInstance().setLoginToken(data.getToken());
+                    App.getInstance().setUserID(data.getId());
                     loginApp();
                 } else {
                     Toast.makeText(LoginActivity.this, code + " " + message, Toast.LENGTH_SHORT).show();
